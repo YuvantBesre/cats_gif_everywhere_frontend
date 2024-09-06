@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Card from "../components/HomePage/Card";
 import Image1 from "../assets/1.avif"
 import Image2 from "../assets/2.avif"
@@ -27,19 +27,49 @@ const HomePage = () => {
     const [data, setData] = useState<dataInterface[]>(DATA);
     const [currentImageShown, setCurrentImageShown] = useState<string>('');
 
+    //save reference for dragItem and dragOverItem
+    const dragItem = useRef<any>(null);
+    const dragOverItem = useRef<any>(null);
+
     useEffect(() => {
         document.addEventListener('keydown', (event) => {
             if(event.key === 'Escape') 
                 event.preventDefault();
                 setCurrentImageShown('');
         })
-    }, [])
+    }, []);
+
+    //const handle drag sorting
+    const handleSort = () => {
+        //duplicate items
+        let _data = [...data];
+
+        //remove and save the dragged item content
+        const draggedItemContent = _data.splice(dragItem.current, 1)[0];
+
+        //switch the position
+        _data.splice(dragOverItem.current, 0, draggedItemContent);
+
+        //reset the position ref
+        dragItem.current = null;
+        dragOverItem.current = null;
+
+        //update the actual array
+        setData(_data);
+    };
 
     return (
         <div className="grid grid-cols-3 gap-x-4 gap-y-8 items-center">
             {
                 data.map((aData, index : number) => (
-                    <div key={index}>
+                    <div 
+                        key={index} 
+                        draggable
+                        onDragStart={(e) => (dragItem.current = index)}
+                        onDragEnter={(e) => (dragOverItem.current = index)}
+                        onDragEnd={handleSort}
+                        onDragOver={(e) => e.preventDefault()}
+                    >
                         <Card 
                             data = {aData}
                             onThumbnailClick = {(image) => setCurrentImageShown(image)}
@@ -49,7 +79,12 @@ const HomePage = () => {
             }
 
             <Modal show={currentImageShown ? true : false}>
-                <LazyLoadImage src={currentImageShown}/>
+                <LazyLoadImage 
+                    src={currentImageShown}
+                    alt={''} 
+                    effect="blur"
+                    placeholderSrc={currentImageShown}
+                />
             </Modal>
         </div>
     )

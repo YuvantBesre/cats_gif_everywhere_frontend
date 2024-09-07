@@ -17,12 +17,12 @@ const Card = (props : CardProps) => {
         </p>
         <LazyLoadImage 
           draggable = {false}
-          onClick={() => props.onThumbnailClick(props.data.thumbnail)} 
+          onClick={() => props.onThumbnailClick(props.data.image)} 
           className="w-[200px] h-[200px] object-cover rounded-md hover:scale-110 transition cursor-pointer" 
-          src={props.data.thumbnail} 
+          src={props.data.image} 
           alt={props.data.type} 
           effect="blur"
-          placeholderSrc={props.data.thumbnail}
+          placeholderSrc={props.data.image}
         />
     </div>
   )

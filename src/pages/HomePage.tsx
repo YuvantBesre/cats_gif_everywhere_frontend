@@ -7,37 +7,40 @@ import Image4 from "../assets/4.avif"
 import Image5 from "../assets/5.avif"
 import Modal from "../components/general/Modal";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import useAxios from "../hooks/useAxios";
 
 
-export interface dataInterface {'type' : string, 'title' : string, 'position' : number, 'thumbnail' : string}
-
-const DATA : dataInterface[] = [
-    {
-        "type": "bank-draft", "title": "Bank Draft", "position": 0, "thumbnail" : Image1
-    }, { "type": "bill-of-lading", "title": "Bill of Lading", "position": 1, "thumbnail" : Image2 }, {
-        "type": "invoice", "title" : "Invoice", "position": 2, "thumbnail" : Image3
-    }, { "type": "bank-draft-2", "title": "Bank Draft 2", "position": 3, "thumbnail" : Image4 }, {
-        "type":
-            "bill-of-lading-2", "title":
-            "Bill of Lading 2", "position": 4,
-            "thumbnail" : Image5
-    }];
+export interface dataInterface {'type' : string, 'title' : string, 'position' : number, 'image' : string}
 
 const HomePage = () => {
-    const [data, setData] = useState<dataInterface[]>(DATA);
+    const [data, setData] = useState<dataInterface[]>([]);
     const [currentImageShown, setCurrentImageShown] = useState<string>('');
+    const { requestGET } = useAxios();
 
     //save reference for dragItem and dragOverItem
     const dragItem = useRef<any>(null);
     const dragOverItem = useRef<any>(null);
 
     useEffect(() => {
+        // Getting the data;
+        getData();
+
+        // Handling the escape button event
         document.addEventListener('keydown', (event) => {
             if(event.key === 'Escape') 
                 event.preventDefault();
                 setCurrentImageShown('');
         })
     }, []);
+
+    const getData = async () => {
+        const URL = '/cats/'
+        const response = await requestGET(URL);
+        
+        if(response.status === 200) {
+            setData(response.data);
+        }
+    }
 
     //const handle drag sorting
     const handleSort = () => {

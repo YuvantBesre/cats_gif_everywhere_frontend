@@ -25,8 +25,8 @@ const useAxios = () => {
         }
     }
     
-    const requestPOST = async (url : string, params : any, headers : any, query : any = {}) => {
-        try {
+    const requestPOST = async (url : string, params : any, headers : any = {}, query : any = {}) => {
+        try { 
             const response = await Axios.post(url, params, { 
                 headers : headers,
                 params : query
@@ -39,24 +39,53 @@ const useAxios = () => {
         }
     }
 
-    const requestPATCH = async (url : string, params : any, headers : any, query : any = {}) => {
+    // AXIOS ASYNC PUT REQUEST
+    const requestPUT = async (url : string, params : any,  headers : any = {}) => {
         try {
-            const response = await Axios.patch(url, params, { 
-                headers : headers,
-                params : query
-            });       
-            return response
+            const response = await Axios.put(url, params, { headers : headers });       
+            return response;
         }
         catch(error : any) {
             console.log(error);
-            return error
+            return error;
+        }
+    }
+
+    // AXIOS ASYNC PATCH REQUEST
+    const requestPATCH = async (url : string, params : any,  headers : any, successResponse : any, errorResponse : any) => {
+        try {
+            const response = await Axios.patch(url, params, { headers : headers });       
+            successResponse(response);
+        }
+        catch(error : any) {
+            console.log(error);
+            if(errorResponse) {
+                errorResponse(error)
+            }
+        }
+    }
+
+    const requestDELETE = async (url : string, params : any = {},  headers : any = {}) => {
+        try {
+            const response = await Axios.delete(url, { 
+                headers : headers, 
+                data : params
+            });       
+
+            return response;
+        }
+        catch(error : any) {
+            console.log(error);
+            return error;
         }
     }
 
     return {
         requestGET,
         requestPOST,
-        requestPATCH
+        requestPUT,
+        requestPATCH,
+        requestDELETE
     }
 }
 

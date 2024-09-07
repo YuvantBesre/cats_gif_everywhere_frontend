@@ -1,5 +1,5 @@
 # Build Stage
-FROM node:18-alpine as build-stage
+FROM node:18-alpine
 
 WORKDIR /app
 
@@ -12,5 +12,9 @@ RUN npm install
 # Copy the rest of the application files to the working directory
 COPY . .
 
-# Build the React application
-RUN npm run build
+# Expose 3000 port for running
+EXPOSE 3000
+
+CMD ["npm", "run", "dev"]
+
+

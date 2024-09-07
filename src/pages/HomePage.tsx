@@ -65,8 +65,8 @@ const HomePage = () => {
                     <div 
                         key={index} 
                         draggable
-                        onDragStart={(e) => (dragItem.current = index)}
-                        onDragEnter={(e) => (dragOverItem.current = index)}
+                        onDragStart={() => (dragItem.current = index)}
+                        onDragEnter={() => (dragOverItem.current = index)}
                         onDragEnd={handleSort}
                         onDragOver={(e) => e.preventDefault()}
                     >

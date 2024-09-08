@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Card from "../components/HomePage/Card";
 import Modal from "../components/general/Modal";
 import { LazyLoadImage } from "react-lazy-load-image-component";

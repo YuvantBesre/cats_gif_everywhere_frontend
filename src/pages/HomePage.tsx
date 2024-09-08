@@ -51,14 +51,14 @@ const HomePage = () => {
         return () => {
             clearInterval(timerID);
         }
-    }, [shufflingHappend.current]);
+    }, [shufflingHappend.current, data]);
 
     useEffect(() => {
         setInterval(() => {
             if(lastSaved)
                 setTimeAgo(getTimeAgo());
         }, 5000);
-    }, [lastSaved])
+    }, [lastSaved, timeAgo])
 
     const getTimeAgo = () => {
         if(lastSaved) {

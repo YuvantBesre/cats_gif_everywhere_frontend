@@ -52,16 +52,14 @@ const useAxios = () => {
     }
 
     // AXIOS ASYNC PATCH REQUEST
-    const requestPATCH = async (url : string, params : any,  headers : any, successResponse : any, errorResponse : any) => {
+    const requestPATCH = async (url : string, params : any,  headers : any = {}) => {
         try {
             const response = await Axios.patch(url, params, { headers : headers });       
-            successResponse(response);
+            return response;
         }
         catch(error : any) {
             console.log(error);
-            if(errorResponse) {
-                errorResponse(error)
-            }
+            return error;
         }
     }
 

@@ -13,4 +13,5 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - VITE_BACKEND_BASE_URL=http://127.0.0.1:8081
     command: npm run dev

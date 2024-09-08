@@ -1,44 +1,25 @@
-// import { useEffect, useState } from "react";
+import { toastProps } from "../../App"
 
-// function Snackbar(props : any) {    
-//     const dispatch = useDispatch();
-//     const { showToast, message, color, timeOut } = useSelector((state : any) => state.toast);
-    
-//     useEffect(() => {
-//         if(showToast)
-//             handleTimeuOuts();
-//     }, [showToast])
-    
-    
-//     // FUNCTIONS
-//     const handleClose = () => {      
-//         dispatch(closeSnackBar());
-//     };
+interface ToastProps {
+    data : toastProps,
+    onChange : (data : toastProps) => void
+}
 
-//     const handleTimeuOuts = () => {
-//         if(timeOut !== -1) {
-//             setTimeout(() => {
-//                 dispatch(closeSnackBar());
-//             }, timeOut);
-//         }
-//     }
+const SnackBar = (props : ToastProps) => {
+    const toastData = props.data;
 
-//     return (
-//         <>
-//             {
-//                 showToast && 
-//                 <div 
-//                     className='animateup flex justify-between text-white fixed bottom-5 left-5 z-[99999] drop-shadow-2xl shadow-xl px-4 py-3 rounded min-w-[350px]' style={{ backgroundColor : color }}>
-//                     <p> {message} </p>
-//                     <div onClick={handleClose} className="mx-2">
-//                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 cursor-pointer">
-//                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-//                         </svg>
-//                     </div>
-//                 </div>
-//             }
-//         </>
-//     )
-// }
+    return (
+        <div className={`border flex items-center justify-between p-2 rounded w-[50%] mx-auto mb-[20px] ${toastData.type == 'error' ? 'border-[red] text-[red]' : ''}`}>
+            {toastData.message}
+            <svg onClick={() => props.onChange({
+                show: false,
+                message: '',
+                type: 'error'
+            })} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5 ml-[20px] cursor-pointer">
+                <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+            </svg>
+        </div>
+    )
+}
 
-// export default Snackbar
+export default SnackBar

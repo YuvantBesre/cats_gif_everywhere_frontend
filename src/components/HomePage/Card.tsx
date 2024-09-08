@@ -27,6 +27,8 @@ const Card = (props : CardProps) => {
             </svg>
           </span>
         </p>
+
+        {/* lazy load the images */}
         <LazyLoadImage 
           draggable = {false}
           onClick={() => props.onThumbnailClick(props.data.image)} 
